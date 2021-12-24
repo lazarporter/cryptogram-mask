@@ -1,26 +1,14 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Box } from "@mui/system";
+import { Typography } from "@mui/material";
+import { AppThemeProvider } from "./providers/ThemeProvider";
 
-function App() {
+export const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AppThemeProvider>
+      <Box sx={{ backgroundColor: "primary.main" }}>
+        <Typography>Stuff goes here</Typography>
+      </Box>
+    </AppThemeProvider>
   );
-}
-
-export default App;
+};
