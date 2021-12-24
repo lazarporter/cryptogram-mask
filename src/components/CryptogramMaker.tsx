@@ -22,10 +22,19 @@ const layout: SxProps<Theme> = {
   padding: 3,
 };
 
+const inputStyles: SxProps<Theme> = {
+  width: "80%",
+  maxWidth: "500px",
+};
+
 const cardStyles: SxProps<Theme> = {
   width: "80%",
   maxWidth: "500px",
   padding: 3,
+  marginTop: 2,
+  "&.MuiCard-root": {
+    boxSizing: "border-box",
+  },
 };
 const cardHeaderStyles: SxProps<Theme> = {
   display: "flex",
@@ -57,7 +66,7 @@ export const CryptogramMaker = () => {
         onChange={(e) => setInput(e.target.value)}
         multiline
         placeholder="Enter some text to be cryptmogrified"
-        sx={{ width: "80%", maxWidth: "500px" }}
+        sx={inputStyles}
       />
       <Card sx={cardStyles}>
         <Box sx={cardHeaderStyles}>
