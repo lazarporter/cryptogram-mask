@@ -1,11 +1,13 @@
+import { ContentCopy } from "@mui/icons-material";
 import {
   Box,
   Card,
   CardContent,
-  CardHeader,
+  IconButton,
   SxProps,
   TextField,
   Theme,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import React from "react";
@@ -20,12 +22,32 @@ const layout: SxProps<Theme> = {
   padding: 3,
 };
 
+const cardStyles: SxProps<Theme> = {
+  width: "80%",
+  maxWidth: "500px",
+  padding: 3,
+};
+const cardHeaderStyles: SxProps<Theme> = {
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "space-between",
+};
+
 export const CryptogramMaker = () => {
   const [input, setInput] = React.useState("");
   const [key] = React.useState(() => makeKey());
   const cryptogramOutput = React.useMemo(
     () => makeCryptogram(input, key),
     [input, key]
+  );
+
+  const handleCopyCryptogram = React.useCallback(
+    () => navigator.clipboard.writeText(cryptogramOutput),
+    [cryptogramOutput]
+  );
+  const handleCopyKey = React.useCallback(
+    () => navigator.clipboard.writeText(JSON.stringify(key)),
+    [key]
   );
 
   return (
@@ -37,15 +59,38 @@ export const CryptogramMaker = () => {
         placeholder="Enter some text to be cryptmogrified"
         sx={{ width: "80%", maxWidth: "500px" }}
       />
-      <Card sx={{ width: "80%", maxWidth: "500px" }}>
-        <CardHeader title="Output" />
+      <Card sx={cardStyles}>
+        <Box sx={cardHeaderStyles}>
+          <Typography>Cryptogram</Typography>
+          <Tooltip title="Copy cryptogram">
+            <span>
+              <IconButton
+                disabled={cryptogramOutput.length === 0}
+                onClick={handleCopyCryptogram}
+              >
+                <ContentCopy />
+              </IconButton>
+            </span>
+          </Tooltip>
+        </Box>
         <CardContent>
           <Typography>{cryptogramOutput}</Typography>
         </CardContent>
       </Card>
-      <Card>
+
+      <Card sx={cardStyles}>
+        <Box sx={cardHeaderStyles}>
+          <Typography>Key</Typography>
+          <Tooltip title="Copy key">
+            <span>
+              <IconButton onClick={handleCopyKey}>
+                <ContentCopy />
+              </IconButton>
+            </span>
+          </Tooltip>
+        </Box>
         <CardContent>
-          <Typography variant="h5">Key</Typography>
+          <Typography>{`Format: {"Original":"Masked"}`}</Typography>
           <Typography>{JSON.stringify(key, null, 4)}</Typography>
         </CardContent>
       </Card>
