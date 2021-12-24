@@ -6,7 +6,6 @@ import { AppThemeProvider } from "./providers/ThemeProvider";
 import { CryptogramMaker } from "./components/CryptogramMaker";
 
 const appLayout: SxProps = {
-  outline: "3px dashed purple",
   display: "flex",
   flexDirection: "column",
   height: "100%",
@@ -17,7 +16,6 @@ const appBarStyles: SxProps = {
   flexDirection: "row",
   justifyContent: "center",
   width: "100%",
-  outline: "3px dashed red",
 };
 
 export const App = () => {
