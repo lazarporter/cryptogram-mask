@@ -1,7 +1,6 @@
 import React from "react";
 import { Box, SxProps } from "@mui/system";
 import { AppBar, Typography } from "@mui/material";
-import { Theme } from "@mui/material/styles";
 import { AppThemeProvider } from "./providers/ThemeProvider";
 import { CryptogramMaker } from "./components/CryptogramMaker";
 
