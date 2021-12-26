@@ -1,9 +1,10 @@
-import { ContentCopy } from "@mui/icons-material";
+import { Close as CloseIcon, ContentCopy } from "@mui/icons-material";
 import {
   Box,
   Card,
   CardContent,
   IconButton,
+  Snackbar,
   SxProps,
   TextField,
   Theme,
@@ -45,20 +46,41 @@ const cardHeaderStyles: SxProps<Theme> = {
 export const CryptogramMaker = () => {
   const [input, setInput] = React.useState("");
   const [key] = React.useState(() => makeKey());
+  const [snackbarOpen, setSnackbarOpen] = React.useState(false);
+  const [snackbarMessage, setSnackbarMessage] = React.useState("");
+
   const cryptogramOutput = React.useMemo(
     () => makeCryptogram(input, key),
     [input, key]
   );
 
-  const handleCopyCryptogram = React.useCallback(
-    () => navigator.clipboard.writeText(cryptogramOutput),
-    [cryptogramOutput]
-  );
-  const handleCopyKey = React.useCallback(
-    () => navigator.clipboard.writeText(JSON.stringify(key)),
-    [key]
-  );
+  const handleCopyCryptogram = React.useCallback(() => {
+    navigator.clipboard.writeText(cryptogramOutput);
+    setSnackbarMessage("Cryptogram copied!");
+    setSnackbarOpen(true);
+  }, [cryptogramOutput, setSnackbarMessage, setSnackbarOpen]);
 
+  const handleCopyKey = React.useCallback(() => {
+    navigator.clipboard.writeText(JSON.stringify(key));
+    setSnackbarMessage("Key copied!");
+    setSnackbarOpen(true);
+  }, [key, setSnackbarMessage, setSnackbarOpen]);
+
+  const handleClose = () => {
+    setSnackbarOpen(false);
+    setSnackbarMessage("");
+  };
+
+  const closeActionComponent = (
+    <IconButton
+      size="small"
+      aria-label="close"
+      color="inherit"
+      onClick={handleClose}
+    >
+      <CloseIcon fontSize="small" />
+    </IconButton>
+  );
   return (
     <Box sx={layout}>
       <TextField
@@ -103,6 +125,14 @@ export const CryptogramMaker = () => {
           <Typography>{JSON.stringify(key, null, 4)}</Typography>
         </CardContent>
       </Card>
+
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={4000}
+        onClose={handleClose}
+        message={snackbarMessage}
+        action={closeActionComponent}
+      />
     </Box>
   );
 };
